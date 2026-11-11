@@ -96,6 +96,13 @@
 @interface TOCropViewController : UIViewController
 
 /**
+ [customized] Whether the iOS 26 Liquid Glass design may be used when both the SDK and the device
+ support it. Defaults to YES. Set it to NO before creating a crop view controller to keep the
+ classic toolbar and layout. Changing it while a crop view controller is alive is unsupported.
+ */
+@property (class, nonatomic, assign) BOOL glassDesignAllowed;
+
+/**
  The original, uncropped image that was passed to this controller.
  */
 @property (nonnull, nonatomic, readonly) UIImage *image;

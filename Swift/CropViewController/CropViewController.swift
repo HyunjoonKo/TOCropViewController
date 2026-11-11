@@ -96,6 +96,16 @@ public typealias CropViewCroppingStyle = TOCropViewCroppingStyle
 open class CropViewController: UIViewController, TOCropViewControllerDelegate {
 
     /**
+     [customized] Whether the iOS 26 Liquid Glass design may be used when both the SDK and the device
+     support it. Defaults to true. Set it to false before creating a crop view controller to keep the
+     classic toolbar and layout.
+     */
+    public static var glassDesignAllowed: Bool {
+        get { TOCropViewController.glassDesignAllowed }
+        set { TOCropViewController.glassDesignAllowed = newValue }
+    }
+
+    /**
      The original, uncropped image that was passed to this controller.
      */
     public var image: UIImage { return self.toCropViewController.image }

@@ -58,7 +58,10 @@
 
     UIView *containerView = self;
 #ifdef __IPHONE_26_0
-    if (@available(iOS 26.0, visionOS 26.0, *)) {
+    // [customized] Also honour `TOCropViewController.glassDesignAllowed`.
+    BOOL usesGlassContainer = NO;
+    if (@available(iOS 26.0, visionOS 26.0, *)) { usesGlassContainer = TOCropViewUsesGlassDesign(); }
+    if (@available(iOS 26.0, visionOS 26.0, *)) if (usesGlassContainer) {
         UIVisualEffect *effect = nil;
 #if !TARGET_OS_VISION
         // We've been getting reports that some devices have been crashing with the error message
@@ -87,7 +90,8 @@
 
         containerView = _glassView.contentView;
         _showOnlyIcons = YES;
-    } else {
+    }
+    if (!usesGlassContainer) {
         self.backgroundView.backgroundColor = [UIColor colorWithWhite:0.12f alpha:1.0f];
         [self addSubview:self.backgroundView];
     }
@@ -118,7 +122,7 @@
     [_doneIconButton setTintColor:[UIColor colorWithRed:1.0f green:0.8f blue:0.0f alpha:1.0f]];
     [_doneIconButton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
 #if defined(__IPHONE_26_0)
-    if (@available(iOS 26.0, *)) {
+    if (@available(iOS 26.0, *)) if (TOCropViewUsesGlassDesign()) {
 #if !TARGET_OS_VISION
         UIButtonConfiguration *configuration = [UIButtonConfiguration prominentGlassButtonConfiguration];
         // The prominent glass capsule takes on the done button's bright accent color,
@@ -150,7 +154,7 @@
     [_cancelIconButton setImage:[TOCropToolbar cancelImage] forState:UIControlStateNormal];
     [_cancelIconButton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
 #if defined(__IPHONE_26_0)
-    if (@available(iOS 26.0, *)) {
+    if (@available(iOS 26.0, *)) if (TOCropViewUsesGlassDesign()) {
 #if !TARGET_OS_VISION
         UIButtonConfiguration *cancelConfiguration = [UIButtonConfiguration clearGlassButtonConfiguration];
         cancelConfiguration.baseForegroundColor = [UIColor labelColor];

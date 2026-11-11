@@ -62,13 +62,18 @@ static inline NSBundle *TO_CROP_VIEW_RESOURCE_BUNDLE_FOR_OBJECT(NSObject *object
     return resourceBundle;
 }
 
+// [customized] Whether the host app allows the Liquid Glass design (default YES). Backed by
+// `TOCropViewController.glassDesignAllowed`; apps that keep the classic design on iOS 26 and later
+// turn it off before creating a crop view controller.
+FOUNDATION_EXTERN BOOL TOCropViewGlassDesignAllowed(void) NS_SWIFT_UNAVAILABLE("Use TOCropViewController.glassDesignAllowed");
+
 // Whether to use the iOS 26 Liquid Glass design. This needs both the iOS 26 SDK and an iOS 26
 // device: apps built with an older SDK run in compatibility mode there, and the glass views are
 // compiled out of them, so a runtime check alone would lay out views that were never built.
 static inline BOOL TOCropViewUsesGlassDesign(void) {
 #ifdef __IPHONE_26_0
     if (@available(iOS 26.0, *)) {
-        return YES;
+        return TOCropViewGlassDesignAllowed();
     }
 #endif
     return NO;

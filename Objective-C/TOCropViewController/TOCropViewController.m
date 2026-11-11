@@ -90,7 +90,22 @@ static const CGFloat kTOCropViewControllerSideToolbarAspectRatio = 0.62f;
 
 @end
 
+// [customized] Backing store for `glassDesignAllowed`, read through `TOCropViewGlassDesignAllowed()`.
+static BOOL TOCropViewControllerGlassDesignAllowed = YES;
+
+BOOL TOCropViewGlassDesignAllowed(void) {
+    return TOCropViewControllerGlassDesignAllowed;
+}
+
 @implementation TOCropViewController
+
++ (BOOL)glassDesignAllowed {
+    return TOCropViewControllerGlassDesignAllowed;
+}
+
++ (void)setGlassDesignAllowed:(BOOL)glassDesignAllowed {
+    TOCropViewControllerGlassDesignAllowed = glassDesignAllowed;
+}
 
 - (instancetype)initWithCroppingStyle:(TOCropViewCroppingStyle)style image:(UIImage *)image {
     NSParameterAssert(image);
